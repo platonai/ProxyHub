@@ -76,8 +76,12 @@ Your response should contains ONLY the JSON object, and nothing else.
 
     override fun parse(text: String, format: String): List<ProxyEntry> {
         val response = session.chat(prompt, text).content
+        if (response == "LLM not available") {
+            logger.warn(response)
+            return listOf()
+        }
 
-        println("LLM:\n$response")
+        println("LLM response: $response")
 
         val jsonText = response.substringAfter("```json").substringBeforeLast("```")
 
@@ -100,7 +104,12 @@ Your response should contains ONLY the JSON object, and nothing else.
     }
 
     override fun parse(path: Path, format: String): List<ProxyEntry> {
-        return listOf()
+        if (Files.notExists(path)) {
+            return listOf()
+        }
+
+        val text = Files.readString(path)
+        return parse(text, format)
     }
 }
 

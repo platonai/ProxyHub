@@ -1,5 +1,6 @@
 package ai.platon.proxy.service
 
+import ai.platon.proxy.repository.ProxyProviderRepository
 import ai.platon.proxy.service.vendor.ProxyVendorFactory
 import ai.platon.pulsar.common.*
 import ai.platon.pulsar.common.config.ImmutableConfig
@@ -10,6 +11,8 @@ import ai.platon.pulsar.common.urls.UrlUtils
 import org.apache.commons.io.FileUtils
 import org.apache.commons.lang3.StringUtils
 import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.stereotype.Service
 import java.net.SocketException
 import java.net.URL
 import java.nio.file.Files
@@ -22,7 +25,13 @@ import java.util.stream.Collectors
 /**
  * Load proxies from proxy vendors
  */
-open class ProxyVendorLoader(conf: ImmutableConfig): ProxyLoader(conf) {
+@Service
+class ProxyVendorLoader(
+    conf: ImmutableConfig
+): ProxyLoader(conf) {
+
+    @Autowired
+    private val providerRepository: ProxyProviderRepository? = null
 
     private val logger = LoggerFactory.getLogger(ProxyVendorLoader::class.java)
     private val providerURLs = mutableSetOf<String>()
@@ -31,14 +40,6 @@ open class ProxyVendorLoader(conf: ImmutableConfig): ProxyLoader(conf) {
     private var numLoadedProxies = 0
     @Volatile
     private var lastFetchTime = Instant.EPOCH
-
-    fun addProviderURL(providerUrl: String) {
-        providerURLs.add(providerUrl)
-    }
-
-    fun removeProviderURL(providerUrl: String) {
-        providerURLs.remove(providerUrl)
-    }
 
     @Throws(ProxyException::class)
     override fun updateProxies(reloadInterval: Duration): List<ProxyEntry> {
@@ -95,9 +96,13 @@ open class ProxyVendorLoader(conf: ImmutableConfig): ProxyLoader(conf) {
     }
 
     fun loadEnabledProviders(reloadInterval: Duration): List<String> {
-        return Files.list(AppPaths.ENABLED_PROVIDER_DIR).filter { Files.isRegularFile(it) }
+        val localProviderURLs = Files.list(AppPaths.ENABLED_PROVIDER_DIR).filter { Files.isRegularFile(it) }
             .collect(Collectors.toList())
             .flatMap { loadIfModified(it, reloadInterval) { loadProviders(it) } }
+
+        val savedProviderURLs = providerRepository?.findAll()?.map { it.url } ?: listOf()
+
+        return localProviderURLs + savedProviderURLs
     }
 
     fun loadProviders(path: Path): List<String> {
@@ -118,7 +123,7 @@ open class ProxyVendorLoader(conf: ImmutableConfig): ProxyLoader(conf) {
     fun parseQualifiedProxies(
         path: Path,
         vendor: String = "universal",
-        format: String = "txt",
+        format: String = "json",
         test: Boolean = false
     ): List<ProxyEntry> {
         if (vendor == "mock") {

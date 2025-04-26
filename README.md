@@ -25,6 +25,11 @@ Key Features:
 
 #### 🛠️ Run with IDE
 
+Create an application.properties file in the project root directory and add the following content:
+```properties
+DEEPSEEK_API_KEY=${YOUR-DEEPSEEK_API_KEY}
+```
+
 Open the project in your IDE.
 
 Open `ProxyApplication` in the editor and click `run`.

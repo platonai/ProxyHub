@@ -106,5 +106,8 @@ derby.log
 /MyManus/.vscode/
 /node_modules/
 
-# The Spring Boot application properties file on the project root directory should be excluded
-./application.properties
+# config in the project root directory contains private data
+/config/
+/config/**
+
+/config/
