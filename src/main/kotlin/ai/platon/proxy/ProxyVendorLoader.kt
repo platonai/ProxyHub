@@ -42,7 +42,7 @@ open class ProxyVendorLoader(conf: ImmutableConfig): ProxyLoader(conf) {
         val space = StringUtils.SPACE
         var url = providerUrl.substringBefore(space)
         val metadata = providerUrl.substringAfter(space)
-        var vendor = "none"
+        var vendor = "universal"
         var format = "txt"
 
         metadata.split(space).zipWithNext().forEach {
@@ -69,7 +69,7 @@ open class ProxyVendorLoader(conf: ImmutableConfig): ProxyLoader(conf) {
 
     @Synchronized
     @Throws(SocketException::class)
-    fun fetchProxiesFromProvider(providerURL: URL, vendor: String = "none", format: String = "txt"): List<ProxyEntry> {
+    fun fetchProxiesFromProvider(providerURL: URL, vendor: String = "universal", format: String = "json"): List<ProxyEntry> {
         val filename = "proxies." + AppPaths.fromUri(providerURL.toString()) + "." + vendor + "." + format
         val target = AppPaths.PROXY_ARCHIVE_DIR.resolve(filename)
 
@@ -108,7 +108,7 @@ open class ProxyVendorLoader(conf: ImmutableConfig): ProxyLoader(conf) {
      * */
     fun parseQualifiedProxies(
         path: Path,
-        vendor: String = "none",
+        vendor: String = "universal",
         format: String = "txt",
         test: Boolean = false
     ): List<ProxyEntry> {
