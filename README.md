@@ -1,94 +1,121 @@
 # Proxy Hub
 
-## Overview
+[![Docker Pulls](https://img.shields.io/docker/pulls/galaxyeye88/proxy-hub?style=flat-square)](https://hub.docker.com/r/galaxyeye88/proxy-hub)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green?style=flat-square)](LICENSE)
+[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.2.5-brightgreen?style=flat-square)](https://spring.io/projects/spring-boot)
+[![OpenAPI Validated](https://img.shields.io/badge/OpenAPI-validated-blue?style=flat-square)](https://swagger.io/specification/)
 
-Unified Proxy Aggregation & Delivery Platform
+---
 
-This project aggregates IP proxies from multiple providers and delivers them to requesters in a standardized, unified
-format.
+## 🚀 Overview
 
-Key Features:
+**Proxy Hub** is a Unified Proxy Aggregation & Delivery Platform.
 
-- 🌍 Multi-source IP collection
-- 🔄 Parse IPs from various providers using LLM
-- 📦 Unified response format for all clients
-- 🛠️ Easy integration via REST API
+It collects IP proxies from multiple providers and delivers them in a standardized format, making integration easy for all kinds of clients and services.
 
-## Usage
+### ✨ Key Features
+- 🔮 **AI-powered parsing** — no manual rules needed
+- 🌍 **Multi-source proxy aggregation**
+- 📦 **Unified API response format**
+- 🔌 **Seamless integration** via REST API & microservices
 
-#### Run ProxyHub
+---
 
-1. Run with Docker:
-   ```bash
-   docker run -e DEEPSEEK_API_KEY=${YOUR-DEEPSEEK_API_KEY} galaxyeye88/proxy-hub:latest
-   ```
+## 🛠️ Getting Started
 
-#### 🛠️ Run with IDE
-
-Create an application.properties file in the project root directory and add the following content:
-```properties
-DEEPSEEK_API_KEY=YOUR-DEEPSEEK_API_KEY
-```
-
-Open the project in your IDE.
-
-Open `ProxyApplication` in the editor and click `run`.
-
-#### Run from source code:
-   ```bash
-   ./mvnw -D DEEPSEEK_API_KEY=${YOUR-DEEPSEEK_API_KEY} spring-boot:run
-   ```
-
-### Retrieve IPs
+### 1. Run with Docker
 
 ```bash
-curl "http://localhost:8192/api/proxyies"
+docker run -e DEEPSEEK_API_KEY=${YOUR_DEEPSEEK_API_KEY} galaxyeye88/proxy-hub:latest
 ```
+
+---
+
+### 2. Run with IDE
+
+- Create an `application.properties` file in the project root:
+
+```properties
+DEEPSEEK_API_KEY=YOUR_DEEPSEEK_API_KEY
+```
+
+- Open the project in your IDE
+- Run the `ProxyApplication` main class
+
+---
+
+### 3. Run from Source Code
+
+```bash
+./mvnw -DDEEPSEEK_API_KEY=${YOUR_DEEPSEEK_API_KEY} spring-boot:run
+```
+
+---
+
+## 🌐 API Usage
+
+### Retrieve Proxies
+
+```bash
+curl "http://localhost:8192/api/proxies"
+```
+
+---
 
 ### Manage Proxy Providers
 
-A proxy provider is a URL that returns a list of IPs. The system supports various formats through vendor-specific parsers.
+**Proxy providers** are URLs that return a list of IPs. Proxy Hub automatically handles vendor-specific formats.
 
-#### Provider URL Format
-
-Provider URL:
+#### Provider URL Example
 
 ```
-https://tps.kdlapi.com/api/gettps/?secret_id={YOUR-SECRET-ID}&signature=jotm8jn6syleypxqf2yfam85v1e8xqx6&num=1&pt=2&format=json&sep=1 -vendor kuaidaili -fmt json
+https://tps.kdlapi.com/api/gettps/?secret_id={YOUR-SECRET-ID}&signature=xxx&num=1&pt=2&format=json&sep=1 -vendor kuaidaili -fmt json
 ```
 
 Example JSON response:
+
 ```json
 {
-   "msg": "",
-   "code": 0,
-   "data": {
-      "count": 1,
-      "proxy_list": [
-         "a585.proxy.com:20818",
-         "157.185.157.151:26589"
-      ]
-   }
+  "msg": "",
+  "code": 0,
+  "data": {
+    "count": 1,
+    "proxy_list": [
+      "a585.proxy.com:20818",
+      "157.185.157.151:26589"
+    ]
+  }
 }
 ```
 
-#### Managing Providers
+---
 
-Add a provider:
+#### Provider Management APIs
+
+✅ Add a provider:
+
 ```bash
-curl -X POST "http://localhost:8192/api/providers" -d '
+curl -X POST "http://localhost:8192/api/providers/add" -d '
 https://your.ip.provider/proxy-rotation-link
 '
 ```
 
-Remove a provider:
+✅ Remove a provider:
+
 ```bash
-curl -X DELETE "http://localhost:8192/api/providers" -d '
+curl -X DELETE "http://localhost:8192/api/providers/remove" -d '
 https://your.ip.provider/proxy-rotation-link
 '
 ```
 
-List all providers:
+✅ List all providers:
+
 ```bash
 curl "http://localhost:8192/api/providers"
 ```
+
+---
+
+## 📄 License
+
+This project is licensed under the [MIT License](LICENSE).
