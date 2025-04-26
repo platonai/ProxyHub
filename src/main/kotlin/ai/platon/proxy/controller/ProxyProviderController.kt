@@ -2,6 +2,7 @@ package ai.platon.proxy.controller
 
 import ai.platon.proxy.model.ProxyProvider
 import ai.platon.proxy.repository.ProxyProviderRepository
+import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
@@ -13,9 +14,9 @@ class ProxyProviderController(private val repo: ProxyProviderRepository) {
     fun all(): List<ProxyProvider> = repo.findAll()
 
     @PostMapping
-    fun create(@RequestBody p: ProxyProvider): ResponseEntity<Any> {
-        repo.save(p)
-        return ResponseEntity.ok().build()
+    fun create(@RequestBody provider: ProxyProvider): ResponseEntity<ProxyProvider> {
+        val saved = repo.save(provider)
+        return ResponseEntity.ok(saved)
     }
 
     @GetMapping("/{id}")

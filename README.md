@@ -16,14 +16,20 @@ Key Features:
 
 ## Usage
 
-### Run ProxyHub
+#### Run ProxyHub
 
 1. Run with Docker:
    ```bash
    docker run -e DEEPSEEK_API_KEY=${YOUR-DEEPSEEK_API_KEY} galaxyeye88/proxy-hub:latest
    ```
 
-2. Or run from source code:
+#### 🛠️ Run with IDE
+
+Open the project in your IDE.
+
+Open `ProxyApplication` in the editor and click `run`.
+
+#### Run from source code:
    ```bash
    ./mvnw -D DEEPSEEK_API_KEY=${YOUR-DEEPSEEK_API_KEY} spring-boot:run
    ```
@@ -31,7 +37,7 @@ Key Features:
 ### Retrieve IPs
 
 ```bash
-curl "http://localhost:8190/api/get-proxy"
+curl "http://localhost:8192/api/proxyies"
 ```
 
 ### Manage Proxy Providers
@@ -41,14 +47,9 @@ A proxy provider is a URL that returns a list of IPs. The system supports variou
 #### Provider URL Format
 
 Provider URL:
-```
-https://provider.example.com/api/get-proxies
-```
-
-#### Example Provider URL
 
 ```
-https://tps.kdlapi.com/api/gettps/?secret_id=oniicxyglsjicadd4oj9&signature=jotm8jn6syleypxqf2yfam85v1e8xqx6&num=1&pt=2&format=json&sep=1 -vendor kuaidaili -fmt json
+https://tps.kdlapi.com/api/gettps/?secret_id={YOUR-SECRET-ID}&signature=jotm8jn6syleypxqf2yfam85v1e8xqx6&num=1&pt=2&format=json&sep=1 -vendor kuaidaili -fmt json
 ```
 
 Example JSON response:
@@ -70,19 +71,19 @@ Example JSON response:
 
 Add a provider:
 ```bash
-curl -X POST "http://localhost:8190/api/add-provider" -d '
+curl -X POST "http://localhost:8192/api/providers" -d '
 https://your.ip.provider/proxy-rotation-link
 '
 ```
 
 Remove a provider:
 ```bash
-curl -X DELETE "http://localhost:8190/api/remove-provider" -d '
+curl -X DELETE "http://localhost:8192/api/providers" -d '
 https://your.ip.provider/proxy-rotation-link
 '
 ```
 
 List all providers:
 ```bash
-curl "http://localhost:8190/api/list-providers"
+curl "http://localhost:8192/api/providers"
 ```

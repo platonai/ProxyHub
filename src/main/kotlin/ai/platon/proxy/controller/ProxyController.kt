@@ -8,12 +8,12 @@ import org.springframework.web.bind.annotation.RestController
 import java.time.Duration
 
 @RestController
-@RequestMapping("/api/proxies")
+@RequestMapping("/proxies")
 class ProxyController(
     private val proxyVendorLoader: ProxyVendorLoader
 ) {
     @GetMapping
-    fun getProxy(): Map<String, Any> {
+    fun all(): Map<String, Any> {
         return try {
             val proxies = proxyVendorLoader.updateProxies(Duration.ofSeconds(30))
             mapOf(

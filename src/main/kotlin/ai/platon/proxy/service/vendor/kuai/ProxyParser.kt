@@ -37,7 +37,7 @@ class KuaiDaiLiProxyParser : ProxyParser() {
 
     private val gson = GsonBuilder().create()
 
-    val providerURL = System.getProperty("KUAI-DAI-LI-PROVIDER-URL")
+    val providerURL = System.getProperty("KUAI-DAI-LI-PROVIDER-URL", "")
 
     override val name: String
         get() = "kuaidaili"
