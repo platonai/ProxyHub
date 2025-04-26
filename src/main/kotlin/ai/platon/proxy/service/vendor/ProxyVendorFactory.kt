@@ -12,8 +12,11 @@ import ai.platon.pulsar.common.urls.UrlUtils
 import ai.platon.pulsar.skeleton.context.PulsarContexts
 import org.apache.commons.lang3.math.NumberUtils
 import org.slf4j.LoggerFactory
+import java.net.Proxy
 import java.nio.file.Files
 import java.nio.file.Path
+import java.time.Duration
+import java.time.Instant
 import kotlin.io.path.deleteIfExists
 
 abstract class ProxyParser {
@@ -74,6 +77,9 @@ Your response should contains ONLY the JSON object, and nothing else.
     override val name: String
         get() = "universal"
 
+    /**
+     * TODO: parse multimple proxies
+     * */
     override fun parse(text: String, format: String): List<ProxyEntry> {
         val response = session.chat(prompt, text).content
         if (response == "LLM not available") {
@@ -91,9 +97,14 @@ Your response should contains ONLY the JSON object, and nothing else.
             val status = json.get("status").asText()
             val host = json.get("host").asText()
             val port = json.get("port").asText()
+            val type = Proxy.Type.SOCKS
+            val declaredTTL = Instant.now() + Duration.ofMinutes(30)
 
             if (status == "success" && Strings.isNumericLike(port)) {
-                return listOf(ProxyEntry(host, port.toInt()))
+                val proxyEntry = ProxyEntry(host, port.toInt(), type = type).also {
+                    it.declaredTTL = declaredTTL
+                }
+                return listOf(proxyEntry)
             } else {
                 logger.warn("Invalid proxy entry: $response")
             }
