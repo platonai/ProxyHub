@@ -1,6 +1,6 @@
-package ai.platon.proxy.vendor.kuai
+package ai.platon.proxy.service.vendor.kuai
 
-import ai.platon.proxy.vendor.ProxyParser
+import ai.platon.proxy.service.vendor.ProxyParser
 import ai.platon.pulsar.common.proxy.ProxyEntry
 import com.google.gson.GsonBuilder
 import java.net.Proxy
@@ -19,8 +19,8 @@ private class ProxyResult(
  * */
 class KuaiDaiLiProxyParser : ProxyParser() {
     companion object {
-        const val PROVIDER_URL =
-            "https://tps.kdlapi.com/api/gettps/?secret_id=mockoniicxyglsjicadd4boj9&signature=jotm8jn6syleypxqf2yfam85v1e8xqx6&num=1&pt=2&format=json&sep=1"
+        const val PROVIDER_URL_EXAMPLE =
+            "https://tps.kdlapi.com/api/gettps/?secret_id={YOUR-secret_id}&signature=jotm8jn6syleypxqf2yfam85v1e8xqx6&num=1&pt=2&format=json&sep=1"
         val EXAMPLE_RESPONSE = """
 {
   "msg": "",
@@ -37,10 +37,12 @@ class KuaiDaiLiProxyParser : ProxyParser() {
 
     private val gson = GsonBuilder().create()
 
+    val providerURL = System.getProperty("KUAI-DAI-LI-PROVIDER-URL")
+
     override val name: String
         get() = "kuaidaili"
 
-    override val providerDescription: String = "$PROVIDER_URL -vendor $name -fmt json"
+    override val providerDescription: String = if (providerURL.isNotBlank()) "$providerURL -vendor $name -fmt json" else ""
 
     override fun parse(text: String, format: String): List<ProxyEntry> {
         return doParse(text, format)

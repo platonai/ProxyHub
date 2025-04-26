@@ -1,6 +1,6 @@
-package ai.platon.proxy.vendor.zm
+package ai.platon.proxy.service.vendor.zm
 
-import ai.platon.proxy.vendor.ProxyParser
+import ai.platon.proxy.service.vendor.ProxyParser
 import ai.platon.pulsar.common.AppPaths
 import ai.platon.pulsar.common.DateTimeDetector
 import ai.platon.pulsar.common.proxy.ProxyEntry

@@ -1,5 +1,6 @@
 package ai.platon.proxy.vendor
 
+import ai.platon.proxy.service.vendor.UniversalProxyParser
 import kotlin.test.Test
 
 class UniversalProxyParserTest {

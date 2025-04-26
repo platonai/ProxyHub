@@ -1,43 +1,47 @@
-# 第一阶段：构建阶段
+# First stage: Build stage
 FROM maven:3.9.9-eclipse-temurin-21-alpine AS builder
 
-# 设置工作目录
+# Set working directory
 WORKDIR /build
 
-# 复制整个项目
-COPY target/ .
+# Copy entire project
+COPY . .
 
-# 复制 JAR 以便在下一阶段使用
+# If there is no `target` directory, it means the project has not been built yet.
+# Build the application only if the `target` directory is absent
+RUN if [ ! -f "target/ProxyHub.jar" ]; then mvn clean install -DskipTests; else echo "Target directory exists, skipping build"; fi
+
+# Copy JAR for use in next stage
 RUN cp $(find /build -name "*.jar" | grep "ProxyHub.jar") /build/app.jar
 
-# 第二阶段：运行阶段
+# Second stage: Runtime stage
 FROM eclipse-temurin:21-jre-alpine AS runner
 
-# 设置工作目录
+# Set working directory
 WORKDIR /app
 
-# 设置时区
+# Set timezone
 ENV TZ=Asia/Shanghai
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
-# 复制构建产物
+# Copy build artifacts
 COPY --from=builder /build/app.jar app.jar
 
 EXPOSE 8190
 
-# 创建非 root 用户
+# Create non-root user
 RUN addgroup --system --gid 1001 appuser \
     && adduser --system --uid 1001 --ingroup appuser appuser
 
-# 设置目录权限
+# Set directory permissions
 RUN chown -R appuser:appuser /app
 
-# 切换到非 root 用户
+# Switch to non-root user
 USER appuser
 
-# 添加构建参数
+# Add build parameters
 LABEL maintainer="Vincent Zhang <ivincent.zhang@gmail.com>"
 LABEL description="PulsarProxy: A lightweight proxy for Platon Pulsar."
 
-# 启动命令，支持动态端口配置
+# Startup command, supports dynamic port configuration
 ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar app.jar"]

@@ -1,14 +1,16 @@
-package ai.platon.proxy.vendor
+package ai.platon.proxy.service.vendor
 
-import ai.platon.proxy.vendor.kuai.KuaiDaiLiProxyParser
-import ai.platon.proxy.vendor.luna.LunaProxyParser
-import ai.platon.proxy.vendor.proxy_seller.ProxySellerProxyParser
-import ai.platon.proxy.vendor.zm.ZMProxyParser
+import ai.platon.proxy.service.vendor.kuai.KuaiDaiLiProxyParser
+import ai.platon.proxy.service.vendor.luna.LunaProxyParser
+import ai.platon.proxy.service.vendor.proxy_seller.ProxySellerProxyParser
+import ai.platon.proxy.service.vendor.zm.ZMProxyParser
 import ai.platon.pulsar.common.AppPaths
+import ai.platon.pulsar.common.Strings
 import ai.platon.pulsar.common.proxy.ProxyEntry
 import ai.platon.pulsar.common.serialize.json.pulsarObjectMapper
 import ai.platon.pulsar.common.urls.UrlUtils
 import ai.platon.pulsar.skeleton.context.PulsarContexts
+import org.apache.commons.lang3.math.NumberUtils
 import org.slf4j.LoggerFactory
 import java.nio.file.Files
 import java.nio.file.Path
@@ -75,16 +77,16 @@ Your response should contains ONLY the JSON object, and nothing else.
     override fun parse(text: String, format: String): List<ProxyEntry> {
         val response = session.chat(prompt, text).content
 
-        println(response)
+        val jsonText = response.substringAfter("```json").substringBeforeLast("```")
 
-        val json = pulsarObjectMapper().readTree(response)
+        val json = pulsarObjectMapper().readTree(jsonText)
 
         if (json.has("status") && json.has("host") && json.has("port")) {
             val status = json.get("status").asText()
             val host = json.get("host").asText()
             val port = json.get("port").asText()
 
-            if (status == "success" && host.matches(Regex(IPADDRESS_PATTERN))) {
+            if (status == "success" && Strings.isNumericLike(port)) {
                 return listOf(ProxyEntry(host, port.toInt()))
             } else {
                 logger.warn("Invalid proxy entry: $response")

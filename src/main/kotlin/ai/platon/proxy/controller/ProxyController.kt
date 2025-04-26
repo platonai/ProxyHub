@@ -1,6 +1,6 @@
 package ai.platon.proxy.controller
 
-import ai.platon.proxy.ProxyVendorLoader
+import ai.platon.proxy.service.ProxyVendorLoader
 import ai.platon.pulsar.common.proxy.ProxyEntry
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
@@ -8,10 +8,11 @@ import org.springframework.web.bind.annotation.RestController
 import java.time.Duration
 
 @RestController
-@RequestMapping("/api")
-class ProxyController(private val proxyVendorLoader: ProxyVendorLoader) {
-
-    @GetMapping("/get-proxy")
+@RequestMapping("/api/proxies")
+class ProxyController(
+    private val proxyVendorLoader: ProxyVendorLoader
+) {
+    @GetMapping
     fun getProxy(): Map<String, Any> {
         return try {
             val proxies = proxyVendorLoader.updateProxies(Duration.ofSeconds(30))

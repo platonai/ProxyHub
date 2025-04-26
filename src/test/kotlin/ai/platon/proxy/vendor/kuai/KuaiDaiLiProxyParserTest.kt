@@ -1,8 +1,10 @@
 package ai.platon.proxy.vendor.kuai
 
-import ai.platon.proxy.ProxyVendorLoader
+import ai.platon.proxy.service.ProxyVendorLoader
+import ai.platon.proxy.service.vendor.kuai.KuaiDaiLiProxyParser
 import ai.platon.pulsar.common.AppPaths
 import ai.platon.pulsar.common.config.ImmutableConfig
+import org.junit.jupiter.api.Assumptions
 import org.junit.jupiter.api.Test
 import java.nio.file.Files
 import kotlin.test.assertFalse
@@ -43,6 +45,8 @@ class KuaiDaiLiProxyParserTest {
 
     @Test
     fun testFetchFromProvider() {
+        Assumptions.assumeTrue(parser.providerURL.isNotBlank())
+
         parser.disableProvider()
         val loader = ProxyVendorLoader(ImmutableConfig())
         val proxyEntry = loader.fetchProxiesFromProvider(parser.providerDescription)

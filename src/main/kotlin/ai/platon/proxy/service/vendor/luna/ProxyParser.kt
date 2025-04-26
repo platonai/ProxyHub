@@ -1,6 +1,6 @@
-package ai.platon.proxy.vendor.luna
+package ai.platon.proxy.service.vendor.luna
 
-import ai.platon.proxy.vendor.ProxyParser
+import ai.platon.proxy.service.vendor.ProxyParser
 import ai.platon.pulsar.common.proxy.ProxyEntry
 import java.time.Duration
 import java.time.Instant

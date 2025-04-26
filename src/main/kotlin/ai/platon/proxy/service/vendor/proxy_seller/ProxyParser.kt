@@ -1,6 +1,6 @@
-package ai.platon.proxy.vendor.proxy_seller
+package ai.platon.proxy.service.vendor.proxy_seller
 
-import ai.platon.proxy.vendor.ProxyParser
+import ai.platon.proxy.service.vendor.ProxyParser
 import ai.platon.pulsar.common.DateTimeDetector
 import ai.platon.pulsar.common.proxy.ProxyEntry
 import com.google.gson.GsonBuilder

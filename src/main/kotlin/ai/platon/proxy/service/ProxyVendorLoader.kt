@@ -1,6 +1,6 @@
-package ai.platon.proxy
+package ai.platon.proxy.service
 
-import ai.platon.proxy.vendor.ProxyVendorFactory
+import ai.platon.proxy.service.vendor.ProxyVendorFactory
 import ai.platon.pulsar.common.*
 import ai.platon.pulsar.common.config.ImmutableConfig
 import ai.platon.pulsar.common.proxy.ProxyEntry

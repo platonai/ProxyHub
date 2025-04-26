@@ -1,6 +1,6 @@
 package ai.platon.proxy.controller
 
-import ai.platon.proxy.ProxyVendorLoader
+import ai.platon.proxy.service.ProxyVendorLoader
 import ai.platon.pulsar.common.proxy.ProxyEntry
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -48,7 +48,7 @@ class ProxyControllerTest {
         `when`(proxyVendorLoader.updateProxies(Duration.ofSeconds(30))).thenReturn(listOf(proxy))
 
         // When/Then
-        mockMvc.perform(get("/api/get-proxy"))
+        mockMvc.perform(get("/api/proxies"))
             .andExpect(status().isOk)
             .andExpect(jsonPath("$.status").value("success"))
             .andExpect(jsonPath("$.message").value("Proxies retrieved successfully"))

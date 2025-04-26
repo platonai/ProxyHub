@@ -1,0 +1,251 @@
+openapi: 3.0.3
+info:
+  title: Proxy Hub API
+  description: |
+    API for the Proxy Hub that aggregates IP proxies 
+    from multiple providers and delivers them in a standardized format.
+  version: 1.0.0
+  contact:
+    email: ivincent.zhang@gmail.com
+tags:
+  - name: Proxies
+    description: Operations related to proxies
+  - name: Providers
+    description: Operations related to proxy providers
+servers:
+  - url: http://localhost:8190
+    description: Local development server
+paths:
+  /api/proxies:
+    get:
+      tags:
+        - Proxies
+      summary: Retrieve proxies
+      description: Get a list of available proxies in the specified format
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProxyEntry'
+              examples:
+                application/json:
+                  value:
+                    - host: "a585.proxy.com"
+                      port: 20818
+                      type: "SOCKS"
+                      outIp: "157.185.157.151"
+                      declaredTTL: "2023-12-31T23:59:59Z"
+            text/plain:
+              schema:
+                type: string
+                example: "192.168.1.1:8080\n10.0.0.1:3128"
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /api/providers:
+    get:
+      tags:
+        - Providers
+      summary: List all providers
+      description: Get a list of all configured proxy providers
+      responses:
+        '200':
+          description: List of providers
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+                  example: https://your.ip.provider/proxy-rotation-link
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    post:
+      tags:
+        - Providers
+      summary: Add a proxy provider
+      description: Add a new proxy provider URL to the system
+      requestBody:
+        required: true
+        content:
+          text/plain:
+            schema:
+              type: string
+              example: https://your.ip.provider/proxy-rotation-link
+      responses:
+        '200':
+          description: Provider added successfully
+        '400':
+          description: Invalid provider URL
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /api/providers/{id}:
+    get:
+      tags:
+        - Providers
+      summary: Get provider details
+      description: Retrieve details of a specific proxy provider by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The ID of the provider
+      responses:
+        '200':
+          description: Provider details
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  url:
+                    type: string
+                    example: https://your.ip.provider/proxy-rotation-link
+        '404':
+          description: Provider not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    put:
+      tags:
+        - Providers
+      summary: Update a proxy provider
+      description: Update the URL of an existing proxy provider
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The ID of the provider
+      requestBody:
+        required: true
+        content:
+          text/plain:
+            schema:
+              type: string
+              example: https://your.new.ip.provider/proxy-rotation-link
+      responses:
+        '200':
+          description: Provider updated successfully
+        '404':
+          description: Provider not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    delete:
+      tags:
+        - Providers
+      summary: Remove a proxy provider
+      description: Remove an existing proxy provider URL from the system
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The ID of the provider
+      responses:
+        '200':
+          description: Provider removed successfully
+        '404':
+          description: Provider not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+components:
+  schemas:
+    ProxyEntry:
+      type: object
+      properties:
+        host:
+          type: string
+          description: The proxy host
+          example: a585.proxy.com
+        port:
+          type: integer
+          description: The proxy port
+          example: 20818
+        type:
+          type: string
+          description: The proxy type
+          enum:
+            - HTTP
+            - HTTPS
+            - SOCKS
+          example: SOCKS
+        outIp:
+          type: string
+          description: The outgoing IP address
+          example: 157.185.157.151
+        declaredTTL:
+          type: string
+          format: date-time
+          description: The time until the proxy expires
+        username:
+          type: string
+          description: Username for authenticated proxies
+        password:
+          type: string
+          description: Password for authenticated proxies
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: Error code
+          example: 500
+        message:
+          type: string
+          description: Error message
+          example: "Internal server error"
