@@ -25,17 +25,26 @@ import java.util.stream.Collectors
 open class ProxyVendorLoader(conf: ImmutableConfig): ProxyLoader(conf) {
 
     private val logger = LoggerFactory.getLogger(ProxyVendorLoader::class.java)
-    private val providers = mutableSetOf<String>()
+    private val providerURLs = mutableSetOf<String>()
     private val proxyChunkSize = 1
     private val minimumFetchInterval = Duration.ofSeconds(3)
     private var numLoadedProxies = 0
     @Volatile
     private var lastFetchTime = Instant.EPOCH
 
+    fun addProviderURL(providerUrl: String) {
+        providerURLs.add(providerUrl)
+    }
+
+    fun removeProviderURL(providerUrl: String) {
+        providerURLs.remove(providerUrl)
+    }
+
     @Throws(ProxyException::class)
     override fun updateProxies(reloadInterval: Duration): List<ProxyEntry> {
-        return loadEnabledProviders(reloadInterval).toCollection(providers)
-            .flatMap { fetchProxiesFromProvider(it) }
+        loadEnabledProviders(reloadInterval).toCollection(providerURLs)
+
+        return providerURLs.flatMap { fetchProxiesFromProvider(it) }
     }
 
     fun fetchProxiesFromProvider(providerUrl: String): List<ProxyEntry> {

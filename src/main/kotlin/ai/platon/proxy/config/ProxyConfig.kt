@@ -13,4 +13,4 @@ class ProxyConfig {
         val config = ImmutableConfig()
         return ProxyVendorLoader(config)
     }
-} 
+}

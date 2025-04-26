@@ -2,7 +2,6 @@ package ai.platon.proxy.controller
 
 import ai.platon.proxy.model.ProxyProvider
 import ai.platon.proxy.repository.ProxyProviderRepository
-import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 

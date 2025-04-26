@@ -77,6 +77,8 @@ Your response should contains ONLY the JSON object, and nothing else.
     override fun parse(text: String, format: String): List<ProxyEntry> {
         val response = session.chat(prompt, text).content
 
+        println("LLM:\n$response")
+
         val jsonText = response.substringAfter("```json").substringBeforeLast("```")
 
         val json = pulsarObjectMapper().readTree(jsonText)
@@ -105,7 +107,7 @@ Your response should contains ONLY the JSON object, and nothing else.
 object ProxyVendorFactory {
     fun getProxyParser(vendor: String): ProxyParser {
         return when (vendor) {
-            "kuaidaili" -> KuaiDaiLiProxyParser()
+            "kuaidaili-disabled" -> KuaiDaiLiProxyParser()
             "zm" -> ZMProxyParser()
             "luna" -> LunaProxyParser()
             "ps" -> ProxySellerProxyParser()
