@@ -7,5 +7,7 @@ import org.springframework.boot.runApplication
 class ProxyApplication
 
 fun main(args: Array<String>) {
-    runApplication<ProxyApplication>(*args)
+    runApplication<ProxyApplication>(*args) {
+        setAdditionalProfiles("private")
+    }
 }

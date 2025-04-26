@@ -109,3 +109,7 @@ derby.log
 # config in the project root directory contains private data
 /config/
 /config/**
+application-private.properties
+application-private.yml
+application-private*
+**/config/**/*-private*
