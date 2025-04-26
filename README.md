@@ -27,7 +27,7 @@ Key Features:
 
 Create an application.properties file in the project root directory and add the following content:
 ```properties
-DEEPSEEK_API_KEY=${YOUR-DEEPSEEK_API_KEY}
+DEEPSEEK_API_KEY=YOUR-DEEPSEEK_API_KEY
 ```
 
 Open the project in your IDE.

@@ -109,5 +109,3 @@ derby.log
 # config in the project root directory contains private data
 /config/
 /config/**
-
-/config/
