@@ -36,7 +36,7 @@ docker run -e DEEPSEEK_API_KEY=${DEEPSEEK_API_KEY} galaxyeye88/proxy-hub:latest
 - Create an `application-private.properties` file in the project root:
 
 ```properties
-DEEPSEEK_API_KEY=DEEPSEEK_API_KEY
+DEEPSEEK_API_KEY=${DEEPSEEK_API_KEY}
 ```
 
 - Open the project in your IDE
