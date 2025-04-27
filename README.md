@@ -46,7 +46,9 @@ DEEPSEEK_API_KEY=${DEEPSEEK_API_KEY}
 
 ### 3. Run from Source Code
 
-```bash
+```shell
+git clone https://github.com/platonai/ProxyHub.git
+cd ProxyHub
 ./mvnw -DDEEPSEEK_API_KEY=${DEEPSEEK_API_KEY} spring-boot:run
 ```
 
