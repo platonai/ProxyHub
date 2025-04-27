@@ -69,7 +69,7 @@ curl "http://localhost:8192/api/proxies"
 #### Provider URL Example
 
 ```
-https://tps.kdlapi.com/api/gettps/?secret_id={YOUR-SECRET-ID}&signature=xxx&num=1&pt=2&format=json&sep=1 -vendor kuaidaili -fmt json
+https://tps.kdlapi.com/api/gettps/?secret_id={YOUR-SECRET-ID}&signature=xxx&num=1&pt=2&format=json&sep=1
 ```
 
 Example JSON response:
