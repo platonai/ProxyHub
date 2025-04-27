@@ -26,7 +26,7 @@ It collects IP proxies from multiple providers and delivers them in a standardiz
 ### 1. Run with Docker
 
 ```bash
-docker run -e DEEPSEEK_API_KEY=${YOUR_DEEPSEEK_API_KEY} galaxyeye88/proxy-hub:latest
+docker run -e DEEPSEEK_API_KEY=${DEEPSEEK_API_KEY} galaxyeye88/proxy-hub:latest
 ```
 
 ---
@@ -36,7 +36,7 @@ docker run -e DEEPSEEK_API_KEY=${YOUR_DEEPSEEK_API_KEY} galaxyeye88/proxy-hub:la
 - Create an `application-private.properties` file in the project root:
 
 ```properties
-DEEPSEEK_API_KEY=YOUR_DEEPSEEK_API_KEY
+DEEPSEEK_API_KEY=DEEPSEEK_API_KEY
 ```
 
 - Open the project in your IDE
@@ -47,7 +47,7 @@ DEEPSEEK_API_KEY=YOUR_DEEPSEEK_API_KEY
 ### 3. Run from Source Code
 
 ```bash
-./mvnw -DDEEPSEEK_API_KEY=${YOUR_DEEPSEEK_API_KEY} spring-boot:run
+./mvnw -DDEEPSEEK_API_KEY=${DEEPSEEK_API_KEY} spring-boot:run
 ```
 
 ---
