@@ -9,7 +9,7 @@
 
 ## 🚀 Overview
 
-**Proxy Hub** is a Unified Proxy Aggregation & Delivery Platform.
+**Proxy Hub** is an AI-Powered, Unified Proxy Aggregation & Delivery Platform.
 
 It collects IP proxies from multiple providers and delivers them in a standardized format, making integration easy for all kinds of clients and services.
 
@@ -59,7 +59,7 @@ cd ProxyHub
 ### Retrieve Proxies
 
 ```bash
-curl "http://localhost:8192/api/proxies"
+curl http://localhost:8192/api/proxies
 ```
 
 ---
