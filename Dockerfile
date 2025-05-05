@@ -27,7 +27,7 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 # Copy build artifacts
 COPY --from=builder /build/app.jar app.jar
 
-EXPOSE 8190
+EXPOSE 8192
 
 # Create non-root user
 RUN addgroup --system --gid 1001 appuser \

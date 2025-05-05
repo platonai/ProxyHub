@@ -31,7 +31,7 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 # 复制构建产物
 COPY --from=builder /build/app.jar app.jar
 
-EXPOSE 8190
+EXPOSE 8192
 
 # 创建非 root 用户
 RUN addgroup --system --gid 1001 appuser \

@@ -13,7 +13,7 @@ tags:
   - name: Providers
     description: Operations related to proxy providers
 servers:
-  - url: http://localhost:8190
+  - url: http://localhost:8192
     description: Local development server
 paths:
   /api/proxies:
