@@ -13,7 +13,7 @@ class ProxyController(
     private val proxyVendorLoader: ProxyVendorLoader
 ) {
     @GetMapping
-    fun all(): Map<String, Any> {
+    fun list(): Map<String, Any> {
         return try {
             val proxies = proxyVendorLoader.updateProxies(Duration.ofSeconds(30))
             mapOf(
@@ -27,7 +27,7 @@ class ProxyController(
                             "username" to proxy.username,
                             "password" to proxy.password,
                             "type" to proxy.type,
-                            "expiresAt" to proxy.declaredTTL
+                            "declaredTTL" to proxy.declaredTTL
                         )
                     }
                 )
@@ -61,7 +61,7 @@ class ProxyController(
                             "username" to proxy.username,
                             "password" to proxy.password,
                             "type" to proxy.type,
-                            "expiresAt" to proxy.declaredTTL
+                            "declaredTTL" to proxy.declaredTTL
                         )
                     }
                 )

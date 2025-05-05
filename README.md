@@ -42,6 +42,8 @@ DEEPSEEK_API_KEY=${DEEPSEEK_API_KEY}
 - Open the project in your IDE
 - Run the `ProxyApplication` main class
 
+🔗 [Choose Another LLM Provider](https://github.com/platonai/PulsarRPA/blob/3.0.x/docs/config/llm/llm-config.md)
+
 ---
 
 ### 3. Run from Source Code
@@ -49,6 +51,9 @@ DEEPSEEK_API_KEY=${DEEPSEEK_API_KEY}
 ```shell
 git clone https://github.com/platonai/ProxyHub.git
 cd ProxyHub
+```
+
+```shell
 ./mvnw -DDEEPSEEK_API_KEY=${DEEPSEEK_API_KEY} spring-boot:run
 ```
 
