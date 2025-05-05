@@ -27,7 +27,7 @@ class ProxyController(
                             "username" to proxy.username,
                             "password" to proxy.password,
                             "type" to proxy.type,
-                            "declaredTTL" to proxy.declaredTTL
+                            "expiresAt" to proxy.declaredTTL
                         )
                     }
                 )
@@ -41,7 +41,7 @@ class ProxyController(
         }
     }
 
-    @GetMapping("/get-moke-proxy")
+    @GetMapping("/get-mock-proxy")
     fun getMockProxy(): Map<String, Any> {
         return try {
             val proxies = listOf(
@@ -61,7 +61,7 @@ class ProxyController(
                             "username" to proxy.username,
                             "password" to proxy.password,
                             "type" to proxy.type,
-                            "declaredTTL" to proxy.declaredTTL
+                            "expiresAt" to proxy.declaredTTL
                         )
                     }
                 )
