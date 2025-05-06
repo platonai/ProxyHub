@@ -12,7 +12,7 @@ class ProxyProviderController(private val repo: ProxyProviderRepository) {
     @GetMapping
     fun all(): List<ProxyProvider> = repo.findAll()
 
-    @PostMapping
+    @PostMapping("/add")
     fun create(@RequestBody provider: ProxyProvider): ResponseEntity<ProxyProvider> {
         val saved = repo.save(provider)
         return ResponseEntity.ok(saved)
@@ -29,4 +29,10 @@ class ProxyProviderController(private val repo: ProxyProviderRepository) {
             repo.deleteById(id)
             ResponseEntity.noContent().build()
         } else ResponseEntity.notFound().build()
+
+    @DeleteMapping("/all")
+    fun deleteAll(): ResponseEntity<Void> {
+        repo.deleteAll()
+        return ResponseEntity.noContent().build()
+    }
 }

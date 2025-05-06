@@ -21,6 +21,10 @@ Extract proxies from the text, and return them in JSON format:
     status: "the status of the response, it can be one of the following: [success, failure]",
     host: "the extracted host, it can be an IP address or a domain name",
     port: "the extracted port, it should be an integer",
+    username: "[Optional] the extracted username",
+    password: "[Optional] the extracted password",
+    type: "[Optional] the proxy type, it can be one of the following: [HTTP, HTTPS, SOCKS, SOCKS4, SOCKS5]",
+    expireAt: "[Optional] the expire time of the proxy, keep it as a string",
 }
 ```
 

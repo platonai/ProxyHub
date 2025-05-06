@@ -102,8 +102,10 @@ Example JSON response:
 ✅ Add a provider:
 
 ```bash
-curl -X POST "http://localhost:8192/api/providers/add" -d '
-https://your.ip.provider/proxy-rotation-link
+curl -X POST "http://localhost:8192/api/providers/add" -H "Content-Type: application/json" -d '
+{
+  "url": "https://your.ip.provider/proxy-rotation-link"
+}
 '
 ```
 
@@ -119,6 +121,12 @@ https://your.ip.provider/proxy-rotation-link
 
 ```bash
 curl "http://localhost:8192/api/providers"
+```
+
+✅ Clear all providers:
+
+```bash
+curl -X DELETE "http://localhost:8192/api/providers/all"
 ```
 
 ---
