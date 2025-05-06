@@ -2,6 +2,7 @@ package ai.platon.proxy.service.vendor.luna
 
 import ai.platon.proxy.service.vendor.ProxyParser
 import ai.platon.pulsar.common.proxy.ProxyEntry
+import org.slf4j.LoggerFactory
 import java.time.Duration
 import java.time.Instant
 
@@ -9,6 +10,8 @@ import java.time.Instant
  * https://www.lunaproxy.com/
  * */
 class LunaProxyParser: ProxyParser() {
+    private val logger = LoggerFactory.getLogger(LunaProxyParser::class.java)
+
     override val name: String
         get() = "luna"
 

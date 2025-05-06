@@ -1,6 +1,7 @@
 package ai.platon.proxy.service.vendor.zm
 
 import ai.platon.proxy.service.vendor.ProxyParser
+import ai.platon.proxy.service.vendor.luna.LunaProxyParser
 import ai.platon.pulsar.common.AppPaths
 import ai.platon.pulsar.common.DateTimeDetector
 import ai.platon.pulsar.common.proxy.ProxyEntry
@@ -9,6 +10,7 @@ import ai.platon.pulsar.common.proxy.ProxyRetryException
 import ai.platon.pulsar.common.proxy.ProxyVendorException
 import ai.platon.pulsar.common.warnInterruptible
 import com.google.gson.GsonBuilder
+import org.slf4j.LoggerFactory
 import java.io.IOException
 import java.nio.file.Files
 import java.time.Instant
@@ -38,6 +40,7 @@ class ZMProxyParser: ProxyParser() {
         const val PARAM_PROXY_ZM_API_KEY = "proxy.zm.api.key"
     }
 
+    private val logger = LoggerFactory.getLogger(ZMProxyParser::class.java)
     private val gson = GsonBuilder().create()
     private val dateTimeDetector = DateTimeDetector()
 

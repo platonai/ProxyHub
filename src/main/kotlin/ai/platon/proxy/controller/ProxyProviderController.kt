@@ -12,7 +12,7 @@ class ProxyProviderController(private val repo: ProxyProviderRepository) {
     @GetMapping
     fun all(): List<ProxyProvider> = repo.findAll()
 
-    @PostMapping("/add")
+    @PostMapping
     fun create(@RequestBody provider: ProxyProvider): ResponseEntity<ProxyProvider> {
         val saved = repo.save(provider)
         return ResponseEntity.ok(saved)
