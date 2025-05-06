@@ -55,11 +55,24 @@ Your response should contains ONLY the JSON object, and nothing else.
             val status = json.get("status").asText()
             val host = json.get("host").asText()
             val port = json.get("port").asText()
-            val type = Proxy.Type.SOCKS
+            val username: String? = json.get("username").asText()
+            val password: String? = json.get("password").asText()
+            val type: String? = json.get("expireAt").asText()?.uppercase()
+            val expireAt: String? = json.get("expireAt").asText()
             val declaredTTL = Instant.now() + Duration.ofMinutes(30)
 
+            val type2 = when (type) {
+                "HTTP" -> Proxy.Type.HTTP
+                "HTTPS" -> Proxy.Type.HTTP
+                "SOCKS" -> Proxy.Type.SOCKS
+                "SOCKS4" -> Proxy.Type.SOCKS
+                "SOCKS5" -> Proxy.Type.SOCKS
+                else -> Proxy.Type.SOCKS
+            }
+
             if (status == "success" && Strings.isNumericLike(port)) {
-                val proxyEntry = ProxyEntry(host, port.toInt(), type = type).also {
+                val proxyEntry = ProxyEntry(host, port.toInt(), username = username, password = password).also {
+                    it.type = type2
                     it.declaredTTL = declaredTTL
                 }
                 return listOf(proxyEntry)
