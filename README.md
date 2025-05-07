@@ -79,7 +79,7 @@ curl http://localhost:8192/api/proxies
 https://tps.kdlapi.com/api/gettps/?secret_id={YOUR-SECRET-ID}&signature=xxx&num=1&pt=2&format=json&sep=1
 ```
 
-Example JSON response:
+Sample JSON Response from Third-Party API Provider:
 
 ```json
 {
@@ -94,6 +94,8 @@ Example JSON response:
   }
 }
 ```
+
+Your provider's response format may vary, but ProxyHub automatically standardizes it into a unified structure.
 
 ---
 
